@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<seznam>
+  <polozka>
+    <nazev>Příklad</nazev>
+    <url>https://www.example.com</url>
+    <popis>Toto je příklad</popis>
+  </polozka>
+  <polozka>
+    <nazev>Další příklad</nazev>
+    <url>https://www.example2.com</url>
+    <popis>Toto je další příklad</popis>
+  </polozka>
+</seznam>

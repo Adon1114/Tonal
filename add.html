@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Přidat novou položku</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+  <div class="tonal-container">
+    <h1 id="add">Přidat novou položku</h1>
+    <form id="add-form" class="tonal-form">
+      <div class="form-group">
+        <label for="nazev-input" class="tonal-label">Název:</label>
+        <br>
+        <input type="text" id="nazev-input" placeholder="Zadejte název položky" required>
+      </div>
+      <div class="form-group">
+        <label for="url-input" class="tonal-label">URL:</label>
+        <br>
+        <input type="url" id="url-input" placeholder="Zadejte URL položky" value="https://" required>
+      </div>
+      <div class="form-group">
+        <label for="popis-input" class="tonal-label">Popis:</label>
+        <br>
+        <input type="text" id="popis-input" placeholder="Zadejte popis položky" required>
+      </div>
+      <div class="form-group">
+        <label for="kategorie-input" class="tonal-label">Kategorie:</label>
+        <br>
+        <label class="checkbox">
+          <input type="radio" id="explicitni-stranky-input" name="kategorie" value="explicitni-stranky">
+          <span class="checkmark"></span>
+          <span>Obsahuje explicitní stránky pro dospělé</span>
+        </label>
+        <br>
+        <label class="checkbox">
+          <input type="radio" id="video-input" name="kategorie" value="video">
+          <span class="checkmark"></span>
+          <span>Označit jako Video</span>
+        </label>
+        <br>
+        <label class="checkbox">
+          <input type="radio" id="media-input" name="kategorie" value="media">
+          <span class="checkmark"></span>
+          <span>Označit jako Média (oficiální zpravodajské služby)</span>
+        </label>
+        <br>
+        <label class="checkbox">
+          <input type="radio" id="blogy-input" name="kategorie" value="blogy">
+          <span class="checkmark"></span>
+          <span>Označit jako Blog (volnomyšlenkářské aktivity ve společnosti)</span>
+        </label>
+      </div>
+      <div style="text-align: center;">
+        <button id="add-button" class="tonal-button">Přidat</button>
+      </div>
+    </form>
+    <div id="result"></div>
+    <p id="back-link" style="display: none;"><a href="search.html">Zpět</a></p>
+    <p><a href="index.html">Hlavní stránka</a></p>
+    <script src="script.js"></script>
+    <script>
+      const addButton = document.getElementById('add-button');
+      addButton.addEventListener('click', function(event) {
+        event.preventDefault();
+        const nazevInput = document.getElementById('nazev-input');
+        const urlInput = document.getElementById('url-input');
+        const popisInput = document.getElementById('popis-input');
+        const kategorieInput = document.querySelector('input[name="kategorie"]:checked');
+        const nazev = nazevInput.value;
+        const url = urlInput.value;
+        const popis = popisInput.value;
+        const kategorie = kategorieInput ? kategorieInput.value : '';
+        if (nazev && url && popis && kategorie) {
+          const data = {
+            nazev: nazev,
+            url: url,
+            popis: popis,
+            kategorie: kategorie
+          };
+          const storage = localStorage.getItem('seznam');
+          if (storage) {
+            const seznam = JSON.parse(storage);
+            seznam.push(data);
+            localStorage.setItem('seznam', JSON.stringify(seznam));
+          } else {
+            const seznam = [data];
+            localStorage.setItem('seznam', JSON.stringify(seznam));
+          }
+          const result = document.getElementById('result');
+          result.innerHTML = `
+            <p>Odkaz byl úspěšně přidán!</p>
+          `;
+          const backLink = document.getElementById('back-link');
+          backLink.style.display = 'block';
+          nazevInput.value = '';
+          urlInput.value = 'https://';
+          popisInput.value = '';
+          document.querySelectorAll('input[name="kategorie"]').forEach(input => input.checked = false);
+        } else {
+          const result = document.getElementById('result');
+          result.innerHTML = `
+            <p>Odkaz nebyl přidán. Prosím, vyplňte všechny pole!</p>
+          `;
+        }
+      });
+    </script>
+  </div>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Nastavení</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <style>
+    .checkbox {
+      display: inline-block;
+      position: relative;
+      padding-left: 25px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .checkbox input {
+      display: none;
+    }
+    .checkbox .checkmark {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      height: 20px;
+      width: 20px;
+      background-color: #fff;
+      border-radius: 50%;
+      border: 2px solid #007bff;
+      transform: translateY(-50%);
+    }
+    .checkbox input:checked + .checkmark {
+      background-color: #007bff;
+    }
+    .checkbox input:checked + .checkmark:after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: #fff;
+      transform: translate(-50%, -50%);
+    }
+  </style>
+</head>
+<body>
+  <div class="tonal-container">
+    <h1 id="options">Nastavení</h1>
+    <form id="options-form" class="tonal-form">
+      <div class="form-group">
+        <label for="zobrazit-explicitni-input" class="tonal-label">Zobrazit explicitní stránky:</label>
+        <br>
+        <label class="checkbox">
+          <input type="checkbox" id="zobrazit-explicitni-input">
+          <span class="checkmark"></span>
+          <span>Zobrazit explicitní stránky</span>
+        </label>
+      </div>
+      <div class="form-group">
+        <label for="pocet-vysledku-input" class="tonal-label">Počet výsledků vyhledávání:</label>
+        <br>
+        <input type="number" id="pocet-vysledku-input" value="10">
+      </div>
+      <div class="form-group">
+        <label for="tema-input" class="tonal-label">Téma:</label>
+        <br>
+        <select id="tema-input">
+          <option value="light">Světlé</option>
+          <option value="dark">Tmavé</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="velikost-pisma-input" class="tonal-label">Velikost písma:</label>
+        <br>
+        <input type="number" id="velikost-pisma-input" value="16">
+      </div>
+      <div class="form-group">
+        <label for="typ-pisma-input" class="tonal-label">Typ písma:</label>
+        <br>
+        <select id="typ-pisma-input">
+          <option value="Arial">Arial</option>
+          <option value="Times New Roman">Times New Roman</option>
+        </select>
+      </div>
+      <div style="text-align: center;">
+        <button id="save-options-button" class="tonal-button">Uložit nastavení</button>
+      </div>
+    </form>
+    <script src="script.js"></script>
+    <script>
+const saveOptionsButton = document.getElementById('save-options-button');
+saveOptionsButton.addEventListener('click', function(event) {
+  event.preventDefault();
+  const zobrazitExplicitniInput = document.getElementById('zobrazit-explicitni-input');
+  const pocetVysledkuInput = document.getElementById('pocet-vysledku-input');
+  const temaInput = document.getElementById('tema-input');
+  const velikostPismaInput = document.getElementById('velikost-pisma-input');
+  const typPismaInput = document.getElementById('typ-pisma-input');
+  const zobrazitExplicitni = zobrazitExplicitniInput.checked;
+  const pocetVysledku = pocetVysledkuInput.value;
+  const tema = temaInput.value;
+  const velikostPisma = velikostPismaInput.value;
+  const typPisma = typPismaInput.value;
+  localStorage.setItem('zobrazitExplicitni', zobrazitExplicitni);
+  localStorage.setItem('pocetVysledku', pocetVysledku);
+  localStorage.setItem('tema', tema);
+  localStorage.setItem('velikostPisma', velikostPisma);
+  localStorage.setItem('typPisma', typPisma);
+  alert('Nastavení uloženo!');
+});
+    </script>
+	</div>
+</body>
+</html>
+

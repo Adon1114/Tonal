@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Vyhledat</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+</head>
+<body>
+  <div class="container">
+    <h1 id="search">Vyhledat</h1>
+    <div class="search-bar">
+      <form>
+        <input type="text" id="search-input" placeholder="Zadejte hledaný výraz">
+        <button id="search-button"><i class="fas fa-search"></i></button>
+        <button id="add-link"><i class="fas fa-plus"></i> Přidat odkaz</button>
+      </form>
+      <div class="settings-filter">
+        <a href="options.html" class="settings-link">
+          <i class="fas fa-cog"></i>
+          <span class="settings-tooltip">Nastavení</span>
+        </a>
+        <button id="filter-button" class="filter-link">
+          <i class="fas fa-filter"></i>
+          <span class="filter-tooltip">Filtrovat</span>
+        </button>
+      </div>
+    </div>
+    <h2>Výsledky vyhledávání</h2>
+    <div id="filter-options" style="display: none;">
+      <select id="filter-category">
+        <option value="all">Všechny kategorie</option>
+        <option value="tech">Technologie</option>
+        <option value="sport">Sport</option>
+        <option value="kultura">Kultura</option>
+      </select>
+      <select id="filter-author">
+        <option value="all">Všichni autoři</option>
+        <option value="john">John Doe</option>
+        <option value="jane">Jane Doe</option>
+      </select>
+      <button id="apply-filter">Použít filtr</button>
+    </div>
+    <div id="search-results"></div>
+    <script src="script.js"></script>
+    <script>
+      const urlParams = new URLSearchParams(window.location.search);
+      const searchValue = urlParams.get('search');
+      console.log("Hledaný výraz: " + searchValue);
+      const storage = localStorage.getItem('seznam');
+      if (storage) {
+        const seznam = JSON.parse(storage);
+        const searchResults = document.getElementById('search-results');
+        searchResults.innerHTML = '';
+        const zobrazitExplicitni = localStorage.getItem('zobrazitExplicitni') === 'true';
+        const filterButton = document.getElementById('filter-button');
+        const filterOptions = document.getElementById('filter-options');
+        filterButton.addEventListener('click', function() {
+          filterOptions.style.display = 'block';
+        });
+        const applyFilter = document.getElementById('apply-filter');
+        applyFilter.addEventListener('click', function() {
+          const selectedCategory = document.getElementById('filter-category').value;
+          const selectedAuthor = document.getElementById('filter-author').value;
+          searchResults.innerHTML = '';
+          for (let i = 0; i < seznam.length; i++) {
+            const nazev = seznam[i].nazev;
+            const url = seznam[i].url;
+            const popis = seznam[i].popis;
+            const explicitniStranky = seznam[i].explicitniStranky;
+            const kategorie = seznam[i].kategorie;
+            const autor = seznam[i].autor;
+            if (nazev.toLowerCase().includes(searchValue.toLowerCase()) || popis.toLowerCase().includes(searchValue.toLowerCase())) {
+              if ((selectedCategory === 'all' || kategorie === selectedCategory) && (selectedAuthor === 'all' || autor === selectedAuthor)) {
+                const li = document.createElement('li');
+                let nazevText = nazev;
+                if (explicitniStranky) {
+                  nazevText = "[18+] " + nazev;
+                }
+                if (explicitniStranky && !zobrazitExplicitni) {
+                  li.innerHTML = `
+                    <p>Varování: Tento odkaz obsahuje explicitní materiál, který není povolen.</p>
+                  `;
+                } else {
+                  li.innerHTML = `
+                    <a href="${url}">
+                      <img class="favicon" src="${url}/favicon.ico" alt="Favicon">
+                      <span class="title">${nazevText}</span>
+                    </a>
+                    <span class="description">${popis}</span>
+                    <span class="url">${url}</span>
+                  `;
+                }
+                searchResults.appendChild(li);
+              }
+            }
+          }
+          filterOptions.style.display = 'none';
+        });
+      } else {
+  console.log("Žádná data nalezena");
+}
+const searchButton = document.getElementById('search-button');
+searchButton.addEventListener('click', function(event) {
+  event.preventDefault();
+  const searchInput = document.getElementById('search-input');
+  const searchValue = searchInput.value;
+  const storage = localStorage.getItem('seznam');
+  if (storage) {
+    const seznam = JSON.parse(storage);
+    const searchResults = document.getElementById('search-results');
+    searchResults.innerHTML = '';
+    const zobrazitExplicitni = localStorage.getItem('zobrazitExplicitni') === 'true';
+    for (let i = 0; i < seznam.length; i++) {
+      const nazev = seznam[i].nazev;
+      const url = seznam[i].url;
+      const popis = seznam[i].popis;
+      const explicitniStranky = seznam[i].explicitniStranky;
+      if (nazev.toLowerCase().includes(searchValue.toLowerCase()) || popis.toLowerCase().includes(searchValue.toLowerCase())) {
+        const li = document.createElement('li');
+        let nazevText = nazev;
+        if (explicitniStranky) {
+          nazevText = "[18+] " + nazev;
+        }
+        if (explicitniStranky && !zobrazitExplicitni) {
+          li.innerHTML = `
+            <p>Varování: Tento odkaz obsahuje explicitní materiál, který není povolen.</p>
+          `;
+        } else {
+          li.innerHTML = `
+            <a href="${url}">
+              <img class="favicon" src="${url}/favicon.ico" alt="Favicon">
+              <span class="title">${nazevText}</span>
+            </a>
+            <span class="description">${popis}</span>
+            <span class="url">${url}</span>
+          `;
+        }
+        searchResults.appendChild(li);
+      }
+    }
+  } else {
+    console.log("Žádná data nalezena");
+  }
+});

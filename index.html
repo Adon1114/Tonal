@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>TONAL</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+</head>
+<body>
+  <div class="tonal-container">
+    <h1 class="tonal-logo">TONAL</h1>
+    <form class="tonal-form">
+      <div class="tonal-search-bar">
+        <input type="text" class="tonal-search-input" id="search-input" placeholder="Zadejte hledaný výraz" autofocus>
+        <button class="tonal-search-button" id="search-button" type="button"><i class="fas fa-search"></i></button>
+        <button class="tonal-filter-button" id="filter-button" type="button">
+          <i class="fas fa-filter"></i>
+          <span class="tonal-filter-tooltip">Filtrovat</span>
+        </button>
+        <a href="options.html" class="tonal-settings-icon">
+          <i class="fas fa-cog"></i>
+          <span class="tonal-settings-tooltip">Nastavení</span>
+        </a>
+      </div>
+    </form>
+    <div id="filter-options" style="display: none;">
+      <select id="filter-category">
+        <option value="all">Všechny kategorie</option>
+        <option value="tech">Technologie</option>
+        <option value="sport">Sport</option>
+        <option value="kultura">Kultura</option>
+      </select>
+      <select id="filter-author">
+        <option value="all">Všichni autoři</option>
+        <option value="john">John Doe</option>
+        <option value="jane">Jane Doe</option>
+      </select>
+      <button id="apply-filter" type="button">Použít filtr</button>
+    </div>
+    <ul id="seznam"></ul>
+    <div id="search-results" class="tonal-search-results"></div>
+    <script src="script.js"></script>
+    <script>
+      const urlParams = new URLSearchParams(window.location.search);
+      const searchValue = urlParams.get('search');
+      if (searchValue) {
+        const searchInput = document.getElementById('search-input');
+        searchInput.value = searchValue;
+        const searchButton = document.getElementById('search-button');
+        searchButton.click();
+      }
+      document.getElementById('search-button').addEventListener('click', function(event) {
+        event.preventDefault();
+        const searchInput = document.getElementById('search-input');
+        const searchValue = searchInput.value;
+        const storage = localStorage.getItem('seznam');
+        if (storage) {
+          const seznam = JSON.parse(storage);
+          const searchResults = document.getElementById('search-results');
+          searchResults.innerHTML = '';
+          for (let i = 0; i < seznam.length; i++) {
+            const nazev = seznam[i].nazev;
+            const url = seznam[i].url;
+            const popis = seznam[i].popis;
+            const explicitniStranky = seznam[i].explicitniStranky;
+            if (nazev.toLowerCase().includes(searchValue.toLowerCase()) || popis.toLowerCase().includes(searchValue.toLowerCase())) {
+              const li = document.createElement('li');
+              let nazevText = nazev;
+              if (explicitniStranky) {
+                nazevText = "[18+] " + nazev;
+              }
+              li.innerHTML = `
+                <a href="${url}">
+                  <img class="favicon" src="${url}/favicon.ico" alt="Favicon">
+                  <span class="title">${nazevText}</span>
+                </a>
+                <div class="description-container">
+                  <span class="description">${popis}</span>
+                  <br>
+                  <span class="url">${url}</span>
+                </div>
+              `;
+              li.querySelector('a').addEventListener('mouseover', function() {
+                this.querySelector('.title').style.textDecoration = 'underline';
+              });
+              li.querySelector('a').addEventListener('mouseout', function() {
+                this.querySelector('.title').style.textDecoration = 'none';
+              });
+              searchResults.appendChild(li);
+            }
+          }
+        }
+      });
+      const filterButton = document.getElementById('filter-button');
+      const filterOptions = document.getElementById('filter-options');
+      filterButton.addEventListener('click', function() {
+        filterOptions.style.display = 'block';
+      });
+      const applyFilter = document.getElementById('apply-filter');
+      applyFilter.addEventListener('click', function(event) {
+        event.preventDefault();
+        const selectedCategory = document.getElementById('filter-category').value;
+        const selectedAuthor = document.getElementById('filter-author').value;
+        const searchResults = document.getElementById('search-results');
+        searchResults.innerHTML = '';
+        const storage = localStorage.getItem('seznam');
+        if (storage) {
+          const seznam = JSON.parse(storage);
+          for (let i = 0; i < seznam.length; i++) {
+            const nazev = seznam[i].nazev;
+            const url = seznam[i].url;
+            const popis = seznam[i].popis;
+            const explicitniStranky = seznam[i].explicitniStranky;
+            const kategorie = seznam[i].kategorie;
+            const autor = seznam[i].autor;
+            if ((selectedCategory === 'all' || kategorie === selectedCategory) && (selectedAuthor === 'all' || autor === selectedAuthor)) {
+              const li = document.createElement('li');
+              let nazevText = nazev;
+              if (explicitniStranky) {
+                nazevText = "[18+] " + nazev;
+              }
+              li.innerHTML = `
+                <a href="${url}">
+                  <img class="favicon" src="${url}/favicon.ico" alt="Favicon">
+                  <span class="title">${nazevText}</span>
+                </a>
+                <div class="description-container">
+                  <span class="description">${popis}</span>
+                  <br>
+                  <span class="url">${url}</span>
+                </div>
+              `;
+              li.querySelector('a').addEventListener('mouseover', function() {
+                this.querySelector('.title').style.textDecoration = 'underline';
+              });
+              li.querySelector('a').addEventListener('mouseout', function() {
+                this.querySelector('.title').style.textDecoration = 'none';
+              });
+              searchResults.appendChild(li);
+            }
+          }
+        }
+        filterOptions.style.display = 'none';
+      });
+    </script>
+    <p><a class="tonal-settings-link" href="add.html">Přidat odkaz</a></p>
+  </div>
+</body>
+</html>

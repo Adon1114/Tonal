@@ -1,0 +1,230 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+  background-color: #f9f9f9;
+}
+
+.tonal-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+}
+
+.tonal-logo {
+  font-size: 36px;
+  color: #003d8a;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.tonal-search-bar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 80%;
+}
+
+.tonal-search-input {
+  padding: 10px 15px;
+  background-color: #fff;
+  color: #333;
+  border: 1px solid #00698f;
+  border-radius: 3px 0 0 3px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-block;
+  box-sizing: border-box;
+  width: 55%;
+  outline: none;
+}
+
+.tonal-search-button {
+  padding: 10px 15px;
+  background-color: #00698f;
+  color: #fff;
+  border: 1px solid #00698f;
+  border-radius: 0 3px 3px 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-block;
+  box-sizing: border-box;
+  margin-left: -2px;
+  border-left: none;
+  width: 20%;
+}
+
+.tonal-filter-button {
+  padding: 10px 15px;
+  background-color: #fff;
+  color: #333;
+  border: 1px solid #00698f;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-block;
+  box-sizing: border-box;
+  margin-left: 10px;
+}
+
+.tonal-settings-icon {
+  position: relative;
+  margin-left: 10px;
+}
+
+.tonal-settings-icon:hover .tonal-settings-tooltip {
+  display: block;
+}
+
+.tonal-settings-tooltip {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  background-color: rgba(0, 0, 0, 0.8); /* černá s 80% průhledností */
+  border: 1px solid #333;
+  padding: 8px 14px; /* padding po stranách na 14px */
+  font-size: 12px;
+  display: none;
+  white-space: nowrap;
+  color: #fff; /* bílý text */
+  border-radius: 3px; /* 3px zaoblené rohy */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* stín pro lepší viditelnost */
+  text-align: center; /* text zarovnaný na střed */
+  width: fit-content; /* flexibilní šířka */
+}
+
+.tonal-settings-icon .fas {
+  font-size: 18px;
+  color: #333;
+}
+
+.tonal-form {
+  margin-bottom: 20px;
+}
+
+.tonal-label {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.tonal-input {
+  display: inline-block;
+  margin-right: 10px;
+  padding: 10px 20px;
+  background-color: #fff;
+  color: #333;
+  border: 1px solid #00698f;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-block;
+  box-sizing: border-box;
+  width: auto;
+}
+
+.tonal-input:focus {
+  border-color: #00698f;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.tonal-button {
+  display: inline-block;
+  margin-right: 10px;
+  padding: 10px 20px;
+  background-color: #fff;
+  color: #333;
+  border: 1px solid #00698f;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-block;
+  box-sizing: border-box;
+}
+
+.tonal-search-results .favicon {
+  width: 24px;
+  height: 24px;
+  margin-right: 5px;
+  padding: 1px;
+  border: 1px solid silver;
+  margin-top: 3px;
+  vertical-align: middle;
+}
+
+.tonal-search-results .title {
+  font-size: 21px;
+  vertical-align: middle;
+  text-decoration: none;
+}
+
+.tonal-search-results .title:hover {
+  text-decoration: underline;
+}
+
+.tonal-search-results .description {
+  font-size: 12px;
+  display: block;
+  margin-left: 18px;
+}
+
+.tonal-search-results .url {
+  font-size: 14px;
+  color: #666;
+  display: block;
+}
+
+.filter {
+  margin-bottom: 20px;
+}
+
+.filter select {
+  width: 200px;
+  height: 30px;
+  margin-right: 10px;
+}
+
+.filter button {
+  width: 100px;
+  height: 30px;
+}
+
+#filter-options {
+  display: none;
+}
+
+#filter-options select {
+  margin-bottom: 10px;
+}
+
+#filter-options button {
+  margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+  .tonal-container {
+    margin: 20px auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .tonal-container {
+    margin: 10px auto;
+  }
+  #seznam li {
+    padding: 5px;
+  }
+  #seznam a {
+    font-size: 14px;
+  }
+}
